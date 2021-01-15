@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_14_214017) do
+ActiveRecord::Schema.define(version: 2021_01_14_230707) do
+
+  create_table "rusher_imports", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "error_at"
+    t.text "result"
+    t.string "import_path"
+  end
 
   create_table "rusher_names", force: :cascade do |t|
     t.integer "ordinal", default: 0, null: false
@@ -19,6 +27,14 @@ ActiveRecord::Schema.define(version: 2021_01_14_214017) do
     t.integer "rusher_id"
     t.index ["index_name"], name: "index_rusher_names_on_index_name"
     t.index ["rusher_id"], name: "index_rusher_names_on_rusher_id"
+  end
+
+  create_table "rusher_versions", force: :cascade do |t|
+    t.string "version", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "rusher_import_id"
+    t.index ["rusher_import_id"], name: "index_rusher_versions_on_rusher_import_id"
   end
 
   create_table "rushers", force: :cascade do |t|
@@ -37,6 +53,8 @@ ActiveRecord::Schema.define(version: 2021_01_14_214017) do
     t.integer "fumbles", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "rusher_version_id", null: false
   end
 
+  add_foreign_key "rushers", "rusher_versions"
 end

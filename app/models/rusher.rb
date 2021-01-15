@@ -21,4 +21,8 @@ class Rusher < ApplicationRecord
   def names
     self.rusher_names.map(&:name).join(" ")
   end
+
+  scope :names, ->(*n) {
+    joins(:rusher_names).merge(RusherName.names(*n))
+  }
 end

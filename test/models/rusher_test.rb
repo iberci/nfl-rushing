@@ -10,7 +10,7 @@ class RusherTest < ActiveSupport::TestCase
     })
   end
 
-  test "multiple names" do
+  test "multiple name parsing" do
     assert @rusher.valid? 
 
     [
@@ -22,6 +22,17 @@ class RusherTest < ActiveSupport::TestCase
       @rusher.names = n
       assert @rusher.rusher_names.size, 2
     end
+  end
+
+  test "name search" do
+    @rusher.names = "Bill Last"
+    @rusher.save
+
+    ["Bill", "BILL", "bill"].each do |n|
+      assert Rusher.names(n).count, 1
+    end
+
+    assert Rusher.names("Not Present").count, 0
   end
 
 
