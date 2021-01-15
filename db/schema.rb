@@ -12,14 +12,6 @@
 
 ActiveRecord::Schema.define(version: 2021_01_14_230707) do
 
-  create_table "rusher_imports", force: :cascade do |t|
-    t.datetime "started_at"
-    t.datetime "completed_at"
-    t.datetime "error_at"
-    t.text "result"
-    t.string "import_path"
-  end
-
   create_table "rusher_names", force: :cascade do |t|
     t.integer "ordinal", default: 0, null: false
     t.string "name", null: false
@@ -30,11 +22,14 @@ ActiveRecord::Schema.define(version: 2021_01_14_230707) do
   end
 
   create_table "rusher_versions", force: :cascade do |t|
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "error_at"
+    t.text "result"
+    t.string "sha256"
     t.string "version", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "rusher_import_id"
-    t.index ["rusher_import_id"], name: "index_rusher_versions_on_rusher_import_id"
   end
 
   create_table "rushers", force: :cascade do |t|
@@ -47,14 +42,15 @@ ActiveRecord::Schema.define(version: 2021_01_14_230707) do
     t.float "yds_g", default: 0.0, null: false
     t.integer "td", default: 0, null: false
     t.integer "lng", default: 0, null: false
-    t.integer "rushing_first_downs", default: 0, null: false
-    t.integer "rushing_20_plus", default: 0, null: false
-    t.integer "rushing_40_plus", default: 0, null: false
+    t.integer "first_downs", default: 0, null: false
+    t.float "first_down_p", default: 0.0, null: false
+    t.integer "plus_20", default: 0, null: false
+    t.integer "plus_40", default: 0, null: false
     t.integer "fumbles", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "rusher_version_id", null: false
   end
 
-  add_foreign_key "rushers", "rusher_versions"
+  add_foreign_key "rushers", "rusher_versions", on_delete: :cascade
 end

@@ -1,10 +1,11 @@
 class Rusher < ApplicationRecord
+  belongs_to :rusher_version
 
   has_many :rusher_names, ->{
     order("rusher_names.ordinal")
   }, dependent: :destroy
 
-  validates_presence_of :team, :pos
+  validates_presence_of :team, :pos, :rusher_version
 
   def names=(*n)
     self.rusher_names = n.flatten.compact.map do |name|

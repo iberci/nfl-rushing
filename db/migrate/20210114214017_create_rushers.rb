@@ -11,9 +11,10 @@ class CreateRushers < ActiveRecord::Migration[6.1]
       t.float :yds_g, null: false, default: 0.0
       t.integer :td, null: false, default: 0
       t.integer :lng, null: false, default: 0
-      t.integer :rushing_first_downs, null: false, default: 0
-      t.integer :rushing_20_plus, null: false, default: 0
-      t.integer :rushing_40_plus, null: false, default: 0
+      t.integer :first_downs, null: false, default: 0
+      t.float :first_down_p, null: false, default: 0.0
+      t.integer :plus_20, null: false, default: 0
+      t.integer :plus_40, null: false, default: 0
       t.integer :fumbles, null: false, default: 0
 
       t.timestamps

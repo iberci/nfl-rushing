@@ -1,23 +1,15 @@
 class RusherVersion < ApplicationRecord
-  validates_presence_of :version, :import_path
+  validates_presence_of :version, :sha256
 
-  STATES = {
-    initial: {
-      title: "Initial"
-    },
-    processing: {
-      title: "Processing"
-    },
-    processed: {
-      title: "Success"
-    },
-    error: {
-    }
+  scope :started, ->{
+    where.not(table_name => {started_at: nil}).where(table_name =>{completed_at: nil}).where(table_name =>{error_at: nil})
   }
 
-  def self.process!(when: DateTime.now, file: path)
+  scope :completed, ->{
+    where.not(table_name => {completed_at: nil})
+  }
 
-    
-  end
-
+  scope :faulted, ->{
+    where.not(table_name => {error_at: nil})
+  }
 end
